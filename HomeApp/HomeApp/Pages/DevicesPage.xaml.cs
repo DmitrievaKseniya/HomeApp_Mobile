@@ -28,7 +28,7 @@ namespace HomeApp.Pages
             var homeDevices = new List<HomeDevice>();
 
             // Заполняем список устройств
-            homeDevices.Add(new HomeDevice("Чайник", "kettle.jpg"));
+            homeDevices.Add(new HomeDevice("Чайник", "kettle.png"));
             homeDevices.Add(new HomeDevice("Стиральная машина"));
             homeDevices.Add(new HomeDevice("Посудомоечная машина"));
             homeDevices.Add(new HomeDevice("Мультиварка"));
@@ -83,13 +83,25 @@ namespace HomeApp.Pages
             // Если изображение отсутствует - показываем информационное окно
             if (String.IsNullOrEmpty(imageName))
             {
-                await DisplayAlert("", "Изображение устройства отсутствует", "OK");
+                //await DisplayAlert("", "Изображение устройства отсутствует", "OK");
+
+                // Создаем новый объект изображения
+                Image img = new Image();
+                // Подключаем удаленный ресурс в качестве источника изображения
+                img.Source = new UriImageSource
+                {
+                    CachingEnabled = false,
+                    Uri = new Uri("https://i.stack.imgur.com/y9DpT.jpg")
+                };
+
+                // Инициализируем страницу
+                Content = img;
                 return;
             }
 
             // При наличии изображения - загружаем его по заданному пути
             Image image = new Image();
-            image.Source = ImageSource.FromResource($"HomeApp.Images.{imageName}");
+            image.Source = ImageSource.FromResource($"HomeApp/Images/{imageName}");
             Content = image;
         }
     }
